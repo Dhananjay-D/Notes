@@ -1,0 +1,93 @@
+#include<stdio.h>
+# define MAX 5
+int queue[MAX];
+int front = -1;
+int rear = -1;
+
+void enqueue(int x)
+{
+    if(front == -1 && rear == -1) 
+    {
+      	front=0; 
+	rear=0;
+	queue[rear]=x;
+    }	
+   else if((rear+1)%MAX==front)
+  	printf("\n QUEUE is full : Cannot insert elements");
+   else
+       {
+	rear=(rear+1)%MAX;
+	queue[rear]=x;
+       }
+} 
+    
+
+void dequeue()
+{
+    if(front == -1 && rear==-1)
+    {
+            printf("\n Queue Underflow \n");
+            return ;
+    }
+         printf("\n Element deleted from queue is : %d \n",queue[front]);
+    if(front == rear)
+    {
+         front = -1;
+         rear=-1;
+    }
+    else
+    {
+	printf("\n Element deleted from queue is : %d \n",queue[front]);
+	front=(front+1)%MAX;
+    
+    }
+}
+
+void display()
+{
+    int i=front;
+    if(front == -1 && rear ==-1)
+    {
+        printf("\n Queue is empty \n");
+        return;
+    }
+    	
+   else
+	printf("\n QUEUE elements are ....");
+	while(i!=rear)
+	{
+	   printf("%d   ", queue[i]);
+	   i=(i+1)%MAX;
+    }
+      printf("%d",queue[rear]);
+
+}
+
+int main()
+{
+    int choice,item;
+    do
+    {
+    printf("\n 1.Insert ");
+    printf("\n 2.Delete ");
+    printf("\n 3.Display");
+    printf("\n 4.Quit \n");
+    printf("\n Enter your choice : ");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+        case 1 : printf("\n Input the element for insertion in queue : ");
+                 scanf("%d", &item);
+                 enqueue(item);
+                 break;
+        case 2 : dequeue();
+                 break;
+        case 3:  display();
+                 break;
+        case 4: break;
+        default:printf("\n Wrong choicen");
+   }
+  }
+while(choice!=4);
+return 0;
+}
