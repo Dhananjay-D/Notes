@@ -1,0 +1,20 @@
+//buzzer pgm
+//RM17-RM19
+
+int buzzer_pin=9;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(buzzer_pin,OUTPUT);
+  Serial.begin(9600);
+  digitalWrite(buzzer_pin,HIGH);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(buzzer_pin,LOW);
+  Serial.println("Buzzer is ON");
+  delay(1000);
+  digitalWrite(buzzer_pin,HIGH);
+  Serial.println("Buzzer is OFF");
+  delay(1000);
+}
