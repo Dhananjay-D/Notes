@@ -1,0 +1,94 @@
+
+--->  execute server then client pgm
+
+-------------------------------------
+// HelloServer.java
+package pck2;
+import java.rmi.Naming;
+import java.rmi.Remote;
+import java.rmi.registry.LocateRegistry;
+public class HelloServer {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        try {
+            HelloInterface helloObj = new HelloImplementation();
+
+            // Create and export the RMI registry on port 1099
+            LocateRegistry.createRegistry(1099);
+
+            // Bind the remote object to the registry with the name "HelloService"
+            Naming.rebind("HelloService", (Remote) helloObj);
+
+            System.out.println("Server is ready.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+}
+
+-------------------------------------------
+
+//HelloImplementation.java
+package pck2;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+public class HelloImplementation extends UnicastRemoteObject implements HelloInterface {
+    public HelloImplementation() throws RemoteException {
+        super();
+    }
+    
+    @Override
+    public String sayHello() throws RemoteException {
+        return "Hello, from the server!";
+    }
+    
+}
+
+---------------------------------------
+
+//HelloInterface.java
+package pck2;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface HelloInterface extends Remote {
+    String sayHello() throws RemoteException;
+    
+}
+
+---------------------------
+
+//HelloClient.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pck2;
+
+import java.rmi.Naming;
+public class HelloClient {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        try {
+            // Lookup the remote object with the name "HelloService"
+            HelloInterface helloObj = (HelloInterface) Naming.lookup("rmi://localhost:1099/HelloService");
+
+            // Invoke the remote method and print the result
+            String result = helloObj.sayHello();
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+}
